@@ -20,7 +20,8 @@ class Mesh {
             attributes: {},
             vertSource: globalState.vertSource,
             fragSource: globalState.fragSource,
-            sRGBifAvailable : globalState.sRGBifAvailable
+            sRGBifAvailable : globalState.sRGBifAvailable,
+            uintIndicesIfAvailable : globalState.uintIndicesIfAvailable
         };
 
         var primitives = gltf.meshes[meshIdx].primitives;
@@ -148,7 +149,8 @@ class Mesh {
 
         // Draw
         if (defined(this.indicesAccessor)) {
-            gl.drawElements(gl.TRIANGLES, this.indicesAccessor.count, gl.UNSIGNED_SHORT, this.indicesAccessor.byteOffset);
+            var componentType = this.indicesAccessor.count > 65536 ? globalState.uintIndicesIfAvailable : gl.UNSIGNED_SHORT;
+            gl.drawElements(gl.TRIANGLES, this.indicesAccessor.count, componentType, this.indicesAccessor.byteOffset);
         }
 
         disableState(gl, globalState, this.glState);

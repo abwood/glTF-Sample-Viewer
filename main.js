@@ -140,6 +140,7 @@ function init(vertSource, fragSource) {
     gl.hasLodExt = gl.getExtension('EXT_shader_texture_lod');
     gl.hasDerivativesExt = gl.getExtension('OES_standard_derivatives');
     var hasSRGBExt = gl.getExtension('EXT_SRGB');
+    var hasUintIndices = gl.getExtension("OES_element_index_uint");
 
     glState = {
         uniforms: {},
@@ -147,7 +148,8 @@ function init(vertSource, fragSource) {
         vertSource: vertSource,
         fragSource: fragSource,
         scene: null,
-        sRGBifAvailable: (hasSRGBExt ? hasSRGBExt.SRGB_EXT : gl.RGBA)
+        sRGBifAvailable: (hasSRGBExt ? hasSRGBExt.SRGB_EXT : gl.RGBA),
+        uintIndicesIfAvailable: (hasUintIndices ? gl.UNSIGNED_INT : gl.UNSIGNED_SHORT)
     };
 
     var projectionMatrix = mat4.create();
